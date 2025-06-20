@@ -173,7 +173,7 @@ SMTP Configuration
 
 📬 Contact
 
-For questions or support:
+Suggestions & Feedbacks are appreciated:
 
 Email: rohankumawat39@gmail.com
 
