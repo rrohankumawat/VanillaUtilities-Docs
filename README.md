@@ -14,14 +14,14 @@ dotnet add package VanillaUtilities
 
 ## 🛠 Utilities Overview
 
-</> API Versioning Extension
+**</>** API Versioning Extension
  API Versioning Utility for your VanillaUtilities package that supports multiple versioning strategies.
 
 Program.cs
  ```bash
 
 //1. URL Segment Versioning (Default in your setup)
-Services.AddApiVersioningUtility();
+services.AddApiVersioningUtility();
 
 //2. Query String Versioning (If configured with VersioningScheme.QueryString)
 services.AddApiVersioningUtility(versioningScheme: VersioningScheme.QueryString);
