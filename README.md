@@ -14,6 +14,42 @@ dotnet add package VanillaUtilities
 
 ## 🛠 Utilities Overview
 
+</> API Versioning Extension
+ API Versioning Utility for your VanillaUtilities package that supports multiple versioning strategies.
+
+Program.cs
+ ```bash
+
+//1. URL Segment Versioning (Default in your setup)
+Services.AddApiVersioningUtility();
+
+//2. Query String Versioning (If configured with VersioningScheme.QueryString)
+services.AddApiVersioningUtility(versioningScheme: VersioningScheme.QueryString);
+
+//3. Header Versioning (If configured with VersioningScheme.Header)
+services.AddApiVersioningUtility(versioningScheme: VersioningScheme.Header);
+
+//4. Media Type Versioning (If configured with VersioningScheme.MediaType)
+services.AddApiVersioningUtility(versioningScheme: VersioningScheme.MediaType);
+
+```
+
+Use curl to test different versioning schemes:
+
+```bash
+# URL Segment
+curl https://yourdomain.com/api/v1/products
+
+# Query String
+curl https://yourdomain.com/api/products?api-version=1.0
+
+# Header
+curl -H "x-api-version: 1.0" https://yourdomain.com/api/products
+
+# Media Type
+curl -H "Accept: application/json;v=1.0" https://yourdomain.com/api/products
+```
+
 🔐 JWT Utilities
 
 ```bash
