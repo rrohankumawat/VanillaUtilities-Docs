@@ -18,15 +18,13 @@ dotnet add package VanillaUtilities
 
 ```bash
 // Generate JWT tokens
-string GenerateAccessToken(string secretKey, string issuer, string audience, 
-                         IEnumerable<Claim> claims, DateTime? expires = null)
+string GenerateJwtToken(string secretKey, string issuer, string audience, IEnumerable<Claim> claims, DateTime? expires = null)
 
-// Generate secure refresh tokens  
+// Generate secure refresh tokens
 string GenerateRefreshToken(int size = 32)
 
 // Validate tokens
-ClaimsPrincipal? ValidateToken(string token, string secretKey, 
-                             string issuer, string audience)
+ClaimsPrincipal? ValidateToken(string token, string secretKey, string issuer, string audience)
 
 
 var token = JwtUtilities.GenerateAccessToken(
@@ -60,17 +58,84 @@ public class SmtpConfig {
 
 ```
 
+➡️ API Generic Responses
+
+```bash
+
+//Perfect Response
+
+
+using VanillaUtilities;
+using System.Net;
+
+public IActionResult GetUser()
+{
+    ApiResponsesUtilities<string>.Data = "John Doe";
+    ApiResponsesUtilities<string>.Message = "User retrieved successfully";
+    ApiResponsesUtilities<string>.Status = HttpStatusCode.OK;
+    ApiResponsesUtilities<string>.Success = true;
+
+    return Ok(ApiResponsesUtilities<string>);
+}
+
+
+
+//Response with Errors
+
+
+
+using VanillaUtilities;
+using System.Net;
+
+public IActionResult GetUser(int id)
+{
+    try
+    {
+        throw new Exception("User not found.");
+    }
+    catch (Exception ex)
+    {
+        ApiResponsesUtilities<string>.Data = null;
+        ApiResponsesUtilities<string>.Message = "An error occurred";
+        ApiResponsesUtilities<string>.Status = HttpStatusCode.NotFound;
+        ApiResponsesUtilities<string>.Success = false;
+        ApiResponsesUtilities<string>.Error = new CustomException(ex.Message, ex);
+
+        return NotFound(ApiResponsesUtilities<string>);
+    }
+}
+
+
+```
+
+
+📁 File Utilities
+
+```bash
+// Read & Write All Texts from file
+async Task<string> ReadAllTextAsync(string filePath, CancellationToken cancellationToken = default)
+Task WriteAllTextAsync(string filePath, string content, CancellationToken cancellationToken = default)
+
+//Zip and Folder Related Operations
+CreateZipFromDirectory(string sourceDirectory, string destinationZipFilePath, bool overwrite = true)
+ExtractZipToDirectory(string sourceZipFilePath, string destinationDirectory, bool overwrite = true)
+GetDirectorySize(string path)
+```
+
 📊 Excel Utilities
 
 ```bash
 // Read/write Excel files
 byte[] CreateExcelFromDataTable(DataTable dataTable, string sheetName = "Sheet1")
 DataTable ReadExcelToDataTable(byte[] fileBytes, int sheetNumber = 1)
+byte[] CreateExcelFromObjects<T>(IEnumerable<T> items, string sheetName = "Sheet1", string? tableName = null)
 
 // CSV handling
 List<T> ReadCsv<T>(Stream stream, bool hasHeader = true)
 void WriteCsv<T>(IEnumerable<T> items, Stream stream, bool writeHeader = true)
 
+//Converts collections to DataTable
+DataTable ToDataTable<T>(this IEnumerable<T> items)
 ```
 
 📅 DateTime Utilities
@@ -80,6 +145,7 @@ void WriteCsv<T>(IEnumerable<T> items, Stream stream, bool writeHeader = true)
 // Date calculations
 int CalculateAge(DateTime birthDate, DateTime? referenceDate = null)
 DateTime AddBusinessDays(DateTime date, int days, IEnumerable<DateTime>? holidays = null)
+bool IsBusinessDay(DateTime date, IEnumerable<DateTime>? holidays = null)
 
 // Week boundaries
 DateTime GetStartOfWeek(DateTime date, DayOfWeek startOfWeek = DayOfWeek.Monday)
@@ -92,9 +158,11 @@ DateTime GetEndOfWeek(DateTime date, DayOfWeek startOfWeek = DayOfWeek.Monday)
 ```bash
 
 // String transformations
+string Truncate(this string value, int maxLength)
 string GenerateSlug(this string phrase)
 string ToTitleCase(this string value)
 string RemoveSpecialCharacters(this string input)
+byte[] ToByteArray(this string value) => Encoding.UTF8.GetBytes(value)
 
 // Validation
 bool IsNullOrEmpty(this string? value)
@@ -119,8 +187,19 @@ string GenerateString(int length, string? allowedChars = null)
 // Collection operations
 IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
 IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> source, int size)
-DataTable ToDataTable<T>(this IEnumerable<T> items)
+Dictionary<TKey, TValue> ToDictionaryIgnoreDuplicates<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+ForEach<T>(this IEnumerable<T> source, Action<T> action)
+bool IsNullOrEmpty<T>(this IEnumerable<T>? collection)
 
+
+```
+
+✨ Validation Helpers
+
+```bash
+bool IsValidEmail(string email)
+bool IsValidPhoneNumber(string phoneNumber)
+bool IsStrongPassword(string password)
 ```
 
 🔧 Configuration
