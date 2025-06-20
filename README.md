@@ -18,7 +18,7 @@ dotnet add package VanillaUtilities
 
  API Versioning Utility for your VanillaUtilities package that supports multiple versioning strategies.
 
-Program.cs
+_Program.cs_
  ```bash
 
 //1. URL Segment Versioning (Default in your setup)
@@ -35,7 +35,7 @@ services.AddApiVersioningUtility(versioningScheme: VersioningScheme.MediaType);
 
 ```
 
-Use curl to test different versioning schemes:
+_Use curl to test different versioning schemes:_
 
 ```bash
 # URL Segment
