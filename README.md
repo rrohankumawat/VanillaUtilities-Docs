@@ -107,12 +107,13 @@ using System.Net;
 
 public IActionResult GetUser()
 {
-    ApiResponsesUtilities<string>.Data = "John Doe";
-    ApiResponsesUtilities<string>.Message = "User retrieved successfully";
-    ApiResponsesUtilities<string>.Status = HttpStatusCode.OK;
-    ApiResponsesUtilities<string>.Success = true;
+    ApiResponsesUtilities<Product> _Response = new();
+    _Response.Data = "John Doe";
+    _Response.Message = "User retrieved successfully";
+    _Response.Status = HttpStatusCode.OK;
+    _Response.Success = true;
 
-    return Ok(ApiResponsesUtilities<string>);
+    return Ok(_Response);
 }
 
 
@@ -132,13 +133,14 @@ public IActionResult GetUser(int id)
     }
     catch (Exception ex)
     {
-        ApiResponsesUtilities<string>.Data = null;
-        ApiResponsesUtilities<string>.Message = "An error occurred";
-        ApiResponsesUtilities<string>.Status = HttpStatusCode.NotFound;
-        ApiResponsesUtilities<string>.Success = false;
-        ApiResponsesUtilities<string>.Error = new CustomException(ex.Message, ex);
+        ApiResponsesUtilities<Product> _Response = new();
+        _Response.Data = null;
+        _Response.Message = "An error occurred";
+        _Response.Status = HttpStatusCode.NotFound;
+        _Response.Success = false;
+        _Response.Error = new CustomException(ex.Message, ex);
 
-        return NotFound(ApiResponsesUtilities<string>);
+        return NotFound(_Response);
     }
 }
 
