@@ -12,7 +12,7 @@ dotnet add package VanillaUtilities
 
 ```
 
-🛠 Utilities Overview
+## 🛠 Utilities Overview
 
 🔐 JWT Utilities
 
